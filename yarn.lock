@@ -1295,6 +1295,18 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.50.0.tgz#9e93b850f0f3fa35f5fa59adfd03adae8488e484"
   integrity sha512-NCC3zz2+nvYd+Ckfh87rA47zfu2QsQpvc6k1yzTk+b9KzRj0wkGa8LSoGOXN6Zv4lRf/EIoZ80biDh9HOI+RNQ==
 
+"@grapecity/spread-sheets-react@^16.2.3":
+  version "16.2.3"
+  resolved "https://registry.yarnpkg.com/@grapecity/spread-sheets-react/-/spread-sheets-react-16.2.3.tgz#53a1e31144649eb66b333347ee5f4054939063ac"
+  integrity sha512-yZbM0FFTM56z6A13kZYS2EAykx6zijrdUv35bQT4/cXXI9ng2wKtIfZzAoLm5fA1ss+It/KWlfwU3x/QtgUnGg==
+  dependencies:
+    "@grapecity/spread-sheets" "16.2.3"
+
+"@grapecity/spread-sheets@16.2.3", "@grapecity/spread-sheets@^16.2.3":
+  version "16.2.3"
+  resolved "https://registry.yarnpkg.com/@grapecity/spread-sheets/-/spread-sheets-16.2.3.tgz#de914718adc5b2bc24f2a6a20f1cc8f53f9d1c35"
+  integrity sha512-LMYZi26Vz7AFWzpTkwSkB8PFBRVEZ3uiC6W6fQ84rZtO8B+pnn1GtDBEV3EgWJ/ZavXARYA+AmI64K70/C1U2g==
+
 "@humanwhocodes/config-array@^0.11.11":
   version "0.11.11"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.11.tgz#88a04c570dbbc7dd943e4712429c3df09bc32844"
@@ -7551,6 +7563,11 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==
+
+prettier@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.3.tgz#432a51f7ba422d1469096c0fdc28e235db8f9643"
+  integrity sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==
 
 pretty-bytes@^5.3.0, pretty-bytes@^5.4.1:
   version "5.6.0"
