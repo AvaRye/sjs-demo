@@ -2,24 +2,29 @@ import './App.css';
 import * as GC from '@grapecity/spread-sheets';
 import { SpreadSheets, Worksheet } from '@grapecity/spread-sheets-react';
 import '@grapecity/spread-sheets/styles/gc.spread.sheets.excel2013white.css';
+import * as Saver from 'file-saver';
+import { useRef } from 'react';
 
 function App() {
   let hostStyle = {
     width: '100%',
-    height: '700px',
+    height: '600px',
     border: '1px solid darkgray',
   };
 
-  let initSpread = (spread) => {
+  const spreadRef = useRef([]);
+
+  const initSpread = (spread) => {
     let spreadNS = GC.Spread.Sheets;
+    spreadRef.current = spread;
     let sheet = spread.getSheet(0);
-    // downloaded image files with different name and location from server
-    let imagePath = ((window.location.hash || '').indexOf('#') === -1) ? 'root/spread/source/css/images/' : 'css-images-';
-    console.log('====ddd===', window.location.hash);
-    sheet.suspendPaint();
-    spread.options.tabStripVisible = false;
-    sheet.options.rowHeaderVisible = false;
-    sheet.options.colHeaderVisible = false;
+    let sheet2 = spread.getSheet(1);
+    let sheet3 = spread.getSheet(2);
+    sheet2.getCell(0, 0).text('sheet2').backColor('white');
+    sheet3.getCell(0, 0).text('sheet3').backColor('white');
+    spread.options.tabStripVisible = true;
+    sheet.options.rowHeaderVisible = true;
+    sheet.options.colHeaderVisible = true;
 
     sheet.addSpan(0, 0, 1, 5);
     sheet.addSpan(0, 5, 1, 4);
@@ -51,16 +56,6 @@ function App() {
       sheet.setRowHeight(row, rowHeights[row]);
     }
 
-    sheet.getCell(0, 0).backgroundImage(imagePath + 'Titile_TL.png');
-    sheet.getCell(0, 5).backgroundImage(imagePath + 'Titile_TR.png');
-    sheet.getCell(1, 1).backgroundImage(imagePath + 'Food.png');
-    sheet.getCell(10, 1).backgroundImage(imagePath + 'Calories.png').text('187').wordWrap(true).font('28pt Calibri').hAlign(spreadNS.HorizontalAlign.center);
-    sheet.getCell(1, 8).backgroundImage(imagePath + 'Minutes_top.png').text('45').font('14pt Calibri').hAlign(spreadNS.HorizontalAlign.center).vAlign(spreadNS.VerticalAlign.bottom);
-    sheet.getCell(2, 8).backgroundImage(imagePath + 'Minutes_bottom.png').text('minutes').font('8pt Calibri').hAlign(spreadNS.HorizontalAlign.center).vAlign(spreadNS.VerticalAlign.top);
-    sheet.getCell(4, 8).backgroundImage(imagePath + 'Minutes_top.png').text('15').font('14pt Calibri').hAlign(spreadNS.HorizontalAlign.center).vAlign(spreadNS.VerticalAlign.bottom);
-    sheet.getCell(5, 8).backgroundImage(imagePath + 'Minutes_bottom.png').text('minutes').font('8pt Calibri').hAlign(spreadNS.HorizontalAlign.center).vAlign(spreadNS.VerticalAlign.top);
-    sheet.getCell(7, 8).backgroundImage(imagePath + 'Servings_top.png').text('3').font('14pt Calibri').hAlign(spreadNS.HorizontalAlign.center).vAlign(spreadNS.VerticalAlign.bottom);
-    sheet.getCell(9, 8).backgroundImage(imagePath + 'Servings_bottom.png').text('servings').font('8pt Calibri').hAlign(spreadNS.HorizontalAlign.center).vAlign(spreadNS.VerticalAlign.top);
     sheet.gridline = new spreadNS.LineBorder('Black', spreadNS.LineStyle.empty);
 
     sheet.getRange(0, 0, 17, 9).backColor('rgb(189,194,178)');
@@ -117,10 +112,40 @@ function App() {
     sheet.resumePaint();
   };
 
+  const downloadCsv = () => {
+    if (!spreadRef.current) {
+      return;
+    }
+    let csv = spreadRef.current.getSheet(0).getCsv(0, 0, spreadRef.current.getSheet(0).getRowCount(), spreadRef.current.getSheet(0).getColumnCount(), '\r', ',');
+    const file = new File([csv], 'download.csv');
+    Saver.saveAs(file);
+  };
+
+  const downloadExl = () => {
+    if (!spreadRef.current) {
+      return;
+    }
+    if (!GC.Spread.Sheets.LicenseKey) {
+      // 没有key
+      alert("no license key");
+    } else {
+      spreadRef.current.export((blob) => {
+        Saver.saveAs(blob, 'download.xlsx');
+      }, (e) => {
+        console.log(e);
+      }, {
+        fileType: GC.Spread.Sheets.FileType.excel,
+      });
+    }
+  };
 
   return (
     <div className='App'>
+      <button className='button' onClick={downloadCsv}>download csv</button>
+      <button className='button' onClick={downloadExl}>download excel</button>
       <SpreadSheets workbookInitialized={spread => initSpread(spread)} hostStyle={hostStyle}>
+        <Worksheet />
+        <Worksheet />
         <Worksheet />
       </SpreadSheets>
     </div>
